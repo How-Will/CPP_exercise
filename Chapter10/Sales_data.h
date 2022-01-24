@@ -10,7 +10,7 @@ struct Sales_data
     friend std::istream &read(std::istream &, Sales_data &);
     friend std::ostream &print(std::ostream &, const Sales_data &);
 
-public:
+  public:
     Sales_data() = default;
     Sales_data(const std::string &s, unsigned n, double p)
         : bookNo(s), units_sold(n), revenue(p * n) {}
@@ -23,12 +23,12 @@ public:
         return *this;
     }
 
- private:
-  std::string bookNo;
-  std::string bookName;
-  unsigned int units_sold = 0;
-  double revenue = 0.0;  // 总收入
-  double avg_price() const;
+  private:
+    std::string bookNo;
+    std::string bookName;
+    unsigned int units_sold = 0;
+    double revenue = 0.0;  // 总收入
+    double avg_price() const;
 };
 
 inline double Sales_data::avg_price() const {
