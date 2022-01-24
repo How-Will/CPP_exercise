@@ -105,13 +105,134 @@
 
 > 编写名为 compareIsbn 的函数，比较两个 Sales_data 对象的 isbn() 成员。使用这个函数排序一个保存 Sales_data 对象的 vector。
 
-```
+```cpp
 bool compareIsbn(const Sales_data& data1, const Sales_data& data2) {
   return data1.isbn() < data2.isbn();
-}
+}	
 ```
 
 ### [练习 10.13](10_13.cpp)
 
 > 标准库定义了名为 partition 的算法，它接受一个谓词，对容器内容进行划分，使得谓词为 true 的值会排在容器的前半部分，而使谓词为 false 的值会排在后半部分。算法返回一个迭代器，指向最后一个使谓词为 true 的元素之后的位置。编写函数，接受一个 string，返回一个 bool 值，指出 string 是否有 5 个或更多字符。使用此函数划分 words。打印出长度大于等于 5 的元素。
 
+## 10.3.2 lambda 表达式
+
+### 练习 10.14
+
+> 编写一个 lambda，接受两个 int，返回它们的和。
+
+```cpp
+auto f = [](const int a, const int b) { return a + b; };
+```
+
+### 练习 10.15
+
+> 编写一个 lambda，捕获它所在函数的 int，并接受一个 int 参数。lambda 应该返回捕获的 int 和 int 参数的和。
+
+```cpp
+void function(){
+    /*...*/
+    int val = 9;
+    auto f = [val](const int a) { return val + a; };
+    /*...*/
+}
+```
+
+### [练习 10.16](10_16.cpp)
+
+> 使用 lambda 编写你自己版本的 biggies。
+
+### [练习 10.17](10_17.cpp)
+
+> 重写 10.3.1 节练习 10.12（第 345 页）的程序，在对 sort 的调用中使用 lambda 来代替函数 compareIsbn。
+
+### [练习 10.18](10_18.cpp)
+
+> 重写 biggies，用 partition 代替 find_if。我们在 10.3.1 节练习 10.13（第 345 页）中介绍了 partition 算法。
+
+### [练习 10.19](10_19.cpp)
+
+> 用 stable_partition 重写前一题的程序，与 stable_sort 类似，在划分后的序列中维持原有元素的顺序。
+
+## 10.3.3 lambda 捕获和返回
+
+### [练习 10.20](10_20.cpp)
+
+> 标准库定义了一个名为 count_if 的算法。类似 find_if，此函数接受一对迭代器，表示一个输入范围，还接受一个谓词，会对输入范围中每个元素执行。count_if 返回一个计数值，表示谓词有多少次为真。使用 count_if 重写我们程序中统计有多少单词长度超过 6 的部分。
+
+### 练习 10.21
+
+> 编写一个 lambda，捕获一个局部 int 变量，并递减变量值，直至它变为 0。一旦变量变为 0，再调用 lambda 应该不再递减变量。lambda 应该返回一个 bool 值，指出捕获的变量是否为 0。
+
+```cpp
+void func(){
+    /*...*/
+    int ival = 10;
+    auto f = [&ival]() -> bool {
+        if(ival==0)
+            return 0;
+        else{
+            ival--;
+            return false;
+        }
+    }
+    /*...*/
+}
+```
+
+## 10.3.4 参数绑定
+
+### [练习 10.22](10_22.cpp)
+
+> 重写统计长度小于等于 6 的单词数量的程序，使用函数代替 lambda。
+
+### 练习 10.23
+
+> bind 接受几个参数？
+
+`bind` 接受一个可调用对象和一个逗号分隔的参数列表，对应可调用对象的参数，即 `bind` 的参数比它所接受的可调用的对象多一个。
+
+### [练习 10.24](10_24.cpp)
+
+> 给定一个 string，使用 bind 和 check_size 在一个 int 的 vector 中查找第一个大于 string 长度的值。
+
+### [练习 10.25](10_25.cpp)
+
+> 在 10.3.2 节（第 349 页）的练习中，编写了一个使用 partition 的 biggies 版本。使用 check_size 和 bind 重写此函数。
+
+# 10.4 再探迭代器
+
+## 10.4.1 插入迭代器
+
+### 练习 10.26
+
+> 解释三种插入迭代器的不同之处。
+
+- `back_inserter`：只有容器支持 `push_back` 才能使用，调用 `push_back` 将元素插入容器末尾
+- `front_inserter`：只有容器支持 `push_front` 才能使用，调用 `push_front` 将元素插入到容器第一个元素之前
+- `inserter`：接受两个参数，第二个参数是一个指向给定容器的迭代器。调用 `insert` 将元素插入到给定迭代器所表示的元素之前
+
+### [练习 10.27](10_27.cpp)
+
+> 除了 unique（参见 10.2.3 节，第 343 页）之外，标准库还定义了名为 unique_copy 的函数，它接受第三个迭代器，表示拷贝不重复元素的目的位置。编写一个程序，使用 unique_copy 将一个 vector 中不重复的元素拷贝到一个初始化为空的 list 中
+
+### [练习 10.28](10_28.cpp)
+
+> 一个 vector 中保存 1 到 9，将其拷贝到三个其他容器中。分别使用 inserter、back_inserter 和 front_inserter 将元素添加到三个容器中。对每种 inserter，估计输出序列是怎样的，运行程序验证你的估计是否正确。
+
+- 使用 `back_inserter` 和 `inserter` 得到 `1, 2, 3, 4, 5, 6, 7, 8, 9`
+- 使用 `front_inserter` 得到 `9, 8, 7, 6, 5, 4, 3, 2, 1`
+
+## 10.4.2 iostream 迭代器
+
+### [练习 10.29](10_29.cpp)
+
+> 编写程序，使用流迭代器读取一个文本文件，存入一个 vector 中的 string 里。
+
+### [练习 10.30](10_30.cpp)
+
+> 使用流迭代器、sort 和 copy 从标准输入读取一个整数序列，将其排序，并将结果写到标准输出。
+
+### [练习 10.31](10_31.cpp)
+
+> 修改前一题的程序，使其只打印不重复的元素。你的程序应该使用 unique_copy（参见 10.4.1 节，第 359 页）。
