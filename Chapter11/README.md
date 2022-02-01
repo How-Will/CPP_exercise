@@ -44,7 +44,7 @@
 
 > 定义一个 map，关键字是家庭的姓，值是一个 vector，保存家中孩子（们）的名。编写代码，实现添加新的家庭以及向已有家庭中添加新的孩子。
 
-### [练习 11.8](https://github.com/shoujiaxin/cpp-primer-exercises/blob/master/第 11 章 关联容器/11.8.cpp)
+### [练习 11.8](11_8.cpp)
 
 > 编写一个程序，在一个 vector 而不是一个 set 中保存不重复的单词。使用 set 的优点是什么？
 
